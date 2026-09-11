@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Suffocate The Mochi!!!!!!!!! 🍡</title>
 
     <link rel="manifest" href="manifest.json">
@@ -11,6 +12,7 @@
     <meta name="theme-color" content="#e78fac">
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -21,6 +23,7 @@
             overflow: hidden;
             font-family: Arial, sans-serif;
             background: #fff4f8;
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -45,6 +48,7 @@
             font-size: 20px;
             color: #a95d7a;
             margin: 20px;
+            line-height: 1.6;
         }
 
         /* MOCHI */
@@ -52,16 +56,20 @@
         .mochi-area {
             width: 350px;
             height: 300px;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
             margin: 0 auto;
         }
 
         .mochi {
             width: 230px;
             height: 230px;
+
             cursor: pointer;
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -70,7 +78,9 @@
         .mochi img {
             width: 100%;
             height: 100%;
+
             object-fit: contain;
+
             transition: transform 0.12s ease;
         }
 
@@ -79,6 +89,7 @@
         }
 
         /* squished state */
+
         .mochi.squish img {
             transform: scale(1.1, 0.85);
         }
@@ -87,19 +98,18 @@
             transform: scale(1.1, 0.85);
         }
 
-        /* face */
-
-
         /* little sparkle */
 
         .sparkle {
             position: absolute;
             font-size: 28px;
             pointer-events: none;
+
             animation: pop 0.7s forwards;
         }
 
         @keyframes pop {
+
             0% {
                 opacity: 1;
                 transform: translateY(0) scale(0.5);
@@ -109,16 +119,25 @@
                 opacity: 0;
                 transform: translateY(-80px) scale(1.4);
             }
+
         }
+
+        /* button */
 
         button {
             border: none;
+
             background: #e78fac;
             color: white;
+
             padding: 12px 25px;
+
             border-radius: 25px;
+
             font-size: 16px;
+
             cursor: pointer;
+
             margin-top: 15px;
         }
 
@@ -126,10 +145,15 @@
             background: #d87999;
         }
 
+        /* message */
+
         .message {
             height: 30px;
+
             margin-top: 15px;
+
             color: #b25d7b;
+
             font-weight: bold;
         }
 
@@ -137,8 +161,11 @@
 
         .decor {
             position: fixed;
+
             pointer-events: none;
+
             opacity: 0.7;
+
             font-size: 30px;
         }
 
@@ -161,15 +188,25 @@
             bottom: 12%;
             right: 20%;
         }
+
     </style>
 </head>
 
+
 <body>
 
+    <!-- decorations -->
+
     <div class="decor d1">✨</div>
-    <div class="decor d2"></div>
+
+    <div class="decor d2">🌸</div>
+
     <div class="decor d3">🍓</div>
+
     <div class="decor d4">✨</div>
+
+
+    <!-- GAME -->
 
     <div class="game">
 
@@ -179,45 +216,95 @@
             press me (+++volume)
         </p>
 
+
         <div class="counter">
-            Squishes: <span id="score">0</span>
+
+            Squishes:
+            <span id="score">0</span>
+
             <br>
-            High Score: <span id="highScore">0</span>
+
+            High Score:
+            <span id="highScore">0</span>
+
         </div>
+
+
+        <!-- MOCHI -->
 
         <div class="mochi-area">
 
             <div class="mochi" id="mochi">
-                <img id="mochiImage" src="ayod1.png" alt="Mochi">
+
+                <img
+                    id="mochiImage"
+                    src="ayod1.png"
+                    alt="Mochi"
+                >
+
             </div>
 
         </div>
 
+
+        <!-- MESSAGE -->
+
         <div class="message" id="message">
+
             Click the mochi 🍡
+
         </div>
 
+
+        <!-- RESET -->
+
         <button onclick="resetGame()">
+
             Reset squishes
+
         </button>
 
     </div>
 
 
+
     <script>
 
+        /* =========================
+           GET HTML ELEMENTS
+        ========================= */
+
         const mochi = document.getElementById("mochi");
+
+        const mochiImage = document.getElementById("mochiImage");
+
         const scoreText = document.getElementById("score");
+
         const highScoreText = document.getElementById("highScore");
+
         const message = document.getElementById("message");
+
+
+        /* =========================
+           SCORE
+        ========================= */
 
         let score = 0;
 
-        let highScore = Number(localStorage.getItem("mochiHighScore")) || 0;
+
+        let highScore =
+            Number(localStorage.getItem("mochiHighScore")) || 0;
+
 
         highScoreText.textContent = highScore;
 
+
+        /* =========================
+           RANDOM MESSAGES
+        ========================= */
+
         const messages = [
+
             "hehehehehehe",
             "udah udah",
             "peyott",
@@ -227,101 +314,328 @@
             "STOPPPPP",
             "emuah",
             "UDAHLAH WOI!"
+
         ];
 
-        mochi.addEventListener("click", function (event) {
-            playSquishSound();
 
-            score++;
+        /* =========================
+           AUDIO
+        ========================= */
 
-            scoreText.textContent = score;
+        let audio = null;
 
-            if (score > highScore) {
-                highScore = score;
-                highScoreText.textContent = highScore;
-
-                localStorage.setItem("mochiHighScore", highScore);
-
-                message.textContent = "NEW HIGH SCORE!!! 🍡";
-            }
-
-            // squish animation
-            mochi.classList.remove("squish");
-
-            // force animation to restart
-            void mochi.offsetWidth;
-
-            mochi.classList.add("squish");
-
-            setTimeout(() => {
-                mochi.classList.remove("squish");
-            }, 180);
-
-            // random message
-            const randomMessage =
-                messages[Math.floor(Math.random() * messages.length)];
-
-            message.textContent = randomMessage;
-
-            // sparkle
-            createSparkle(event.clientX, event.clientY);
-
-        });
 
         function playSquishSound() {
-            const audio = new (window.AudioContext || window.webkitAudioContext)();
 
-            const oscillator = audio.createOscillator();
-            const gain = audio.createGain();
+            /*
+            Create the audio system only once.
+            This prevents the browser from creating
+            hundreds of audio systems after many clicks.
+            */
+
+            if (!audio) {
+
+                audio =
+                    new (window.AudioContext ||
+                    window.webkitAudioContext)();
+
+            }
+
+
+            /*
+            iPhone sometimes pauses the AudioContext.
+            This wakes it back up.
+            */
+
+            if (audio.state === "suspended") {
+
+                audio.resume();
+
+            }
+
+
+            const oscillator =
+                audio.createOscillator();
+
+
+            const gain =
+                audio.createGain();
+
 
             oscillator.type = "sine";
 
-            oscillator.frequency.setValueAtTime(300, audio.currentTime);
+
+            /*
+            Start with a higher sound
+            */
+
+            oscillator.frequency.setValueAtTime(
+                300,
+                audio.currentTime
+            );
+
+
+            /*
+            Then quickly go lower.
+            This makes the "squish" sound.
+            */
+
             oscillator.frequency.exponentialRampToValueAtTime(
                 100,
                 audio.currentTime + 0.15
             );
 
-            gain.gain.setValueAtTime(0.25, audio.currentTime);
+
+            /*
+            Volume starts loud
+            */
+
+            gain.gain.setValueAtTime(
+                0.25,
+                audio.currentTime
+            );
+
+
+            /*
+            Then fades out.
+            */
+
             gain.gain.exponentialRampToValueAtTime(
                 0.01,
                 audio.currentTime + 0.15
             );
 
+
+            /*
+            Connect sound to speakers.
+            */
+
             oscillator.connect(gain);
+
             gain.connect(audio.destination);
 
+
+            /*
+            Play sound.
+            */
+
             oscillator.start();
-            oscillator.stop(audio.currentTime + 0.15);
+
+
+            oscillator.stop(
+                audio.currentTime + 0.15
+            );
+
         }
 
 
+
+        /* =========================
+           CLICK MOCHI
+        ========================= */
+
+        mochi.addEventListener("click", function (event) {
+
+
+            /* SOUND */
+
+            playSquishSound();
+
+
+            /* SCORE */
+
+            score++;
+
+
+            scoreText.textContent = score;
+
+
+            /* =========================
+               HIGH SCORE
+            ========================= */
+
+            let newHighScore = false;
+
+
+            if (score > highScore) {
+
+                highScore = score;
+
+                highScoreText.textContent = highScore;
+
+
+                localStorage.setItem(
+                    "mochiHighScore",
+                    highScore
+                );
+
+
+                newHighScore = true;
+
+            }
+
+
+            /* =========================
+               CHANGE IMAGE
+            ========================= */
+
+            /*
+            ayod1 = mouth closed
+
+            ayod2 = mouth open
+            */
+
+            mochiImage.src = "ayod2.png";
+
+
+            /* =========================
+               SQUISH ANIMATION
+            ========================= */
+
+            mochi.classList.remove("squish");
+
+
+            /*
+            Force browser to restart
+            the animation.
+            */
+
+            void mochi.offsetWidth;
+
+
+            mochi.classList.add("squish");
+
+
+            /*
+            After 180 milliseconds:
+
+            1. stop squishing
+            2. close mouth again
+            */
+
+            setTimeout(function () {
+
+                mochi.classList.remove("squish");
+
+                mochiImage.src = "ayod1.png";
+
+            }, 180);
+
+
+
+            /* =========================
+               MESSAGE
+            ========================= */
+
+            /*
+            If this is a new high score,
+            keep the special message.
+
+            Otherwise show a random message.
+            */
+
+            if (newHighScore) {
+
+                message.textContent =
+                    "NEW HIGH SCORE!!! 🍡";
+
+            } else {
+
+                const randomMessage =
+                    messages[
+                        Math.floor(
+                            Math.random() *
+                            messages.length
+                        )
+                    ];
+
+
+                message.textContent =
+                    randomMessage;
+
+            }
+
+
+            /* =========================
+               SPARKLE
+            ========================= */
+
+            createSparkle(
+                event.clientX,
+                event.clientY
+            );
+
+        });
+
+
+
+        /* =========================
+           CREATE SPARKLE
+        ========================= */
 
         function createSparkle(x, y) {
 
-            const sparkle = document.createElement("div");
+            const sparkle =
+                document.createElement("div");
 
-            sparkle.className = "sparkle";
-            sparkle.textContent = "✨";
 
-            sparkle.style.left = x + "px";
-            sparkle.style.top = y + "px";
+            sparkle.className =
+                "sparkle";
 
-            document.body.appendChild(sparkle);
 
-            setTimeout(() => {
+            sparkle.textContent =
+                "✨";
+
+
+            sparkle.style.left =
+                x + "px";
+
+
+            sparkle.style.top =
+                y + "px";
+
+
+            document.body.appendChild(
+                sparkle
+            );
+
+
+            setTimeout(function () {
+
                 sparkle.remove();
+
             }, 700);
+
         }
 
+
+
+        /* =========================
+           RESET GAME
+        ========================= */
 
         function resetGame() {
 
             score = 0;
 
-            scoreText.textContent = score;
 
-            message.textContent = "Click the mochi 🍡";
+            scoreText.textContent =
+                score;
+
+
+            message.textContent =
+                "Click the mochi 🍡";
+
+
+            /*
+            IMPORTANT:
+
+            We do NOT reset highScore here.
+
+            Your highest score should stay saved
+            even after pressing Reset.
+            */
+
         }
 
     </script>
