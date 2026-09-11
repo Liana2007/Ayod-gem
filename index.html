@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suffocate The Mochi!!!!!!!!! 🍡</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#e78fac">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: #fff4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .game {
+            text-align: center;
+        }
+
+        h1 {
+            color: #d96b91;
+            margin-bottom: 5px;
+            font-size: 36px;
+        }
+
+        .subtitle {
+            color: #9b7180;
+            margin-top: 0;
+        }
+
+        .counter {
+            font-size: 20px;
+            color: #a95d7a;
+            margin: 20px;
+        }
+
+        /* MOCHI */
+
+        .mochi-area {
+            width: 350px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .mochi {
+            width: 200px;
+            height: 145px;
+            background: #e9c47c;
+            border-radius: 45% 45% 42% 42%;
+            position: relative;
+            cursor: pointer;
+
+            box-shadow:
+                inset 0 -12px 0 rgba(180, 90, 120, 0.12),
+                0 15px 30px rgba(180, 100, 130, 0.18);
+
+            transition:
+                transform 0.12s ease,
+                width 0.12s ease,
+                height 0.12s ease;
+        }
+
+        .mochi:hover {
+            transform: scale(1.04);
+        }
+
+        /* squished state */
+        .mochi.squish {
+            transform: scale(1.35, 0.55);
+            width: 210px;
+            height: 150px;
+        }
+
+        .mochi:active {
+            transform: scale(1.3, 0.5);
+        }
+
+        /* face */
+
+        .eye {
+            width: 14px;
+            height: 18px;
+            background: #563743;
+            border-radius: 50%;
+            position: absolute;
+            top: 53px;
+        }
+
+        .eye.left {
+            left: 62px;
+        }
+
+        .eye.right {
+            right: 62px;
+        }
+
+        .mouth {
+            width: 36px;
+            height: 24px;
+            background: #563743;
+            border-radius: 0 0 50% 50%;
+            position: absolute;
+            top: 70px;
+            left: 79px;
+            transition: all 0.12s ease;
+        }
+
+        .mochi.squish .mouth {
+            width: 48px;
+            height: 35px;
+            top: 65px;
+            left: 73px;
+            border-radius: 50%;
+        }
+
+        .blush {
+            width: 25px;
+            height: 12px;
+            background: #ed8eaa;
+            border-radius: 50%;
+            position: absolute;
+            top: 76px;
+            opacity: 0.65;
+        }
+
+        .blush.left {
+            left: 30px;
+        }
+
+        .blush.right {
+            right: 30px;
+        }
+
+        /* little sparkle */
+
+        .sparkle {
+            position: absolute;
+            font-size: 28px;
+            pointer-events: none;
+            animation: pop 0.7s forwards;
+        }
+
+        @keyframes pop {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.5);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-80px) scale(1.4);
+            }
+        }
+
+        button {
+            border: none;
+            background: #e78fac;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #d87999;
+        }
+
+        .message {
+            height: 30px;
+            margin-top: 15px;
+            color: #b25d7b;
+            font-weight: bold;
+        }
+
+        /* floating decorations */
+
+        .decor {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.7;
+            font-size: 30px;
+        }
+
+        .d1 {
+            top: 10%;
+            left: 15%;
+        }
+
+        .d2 {
+            top: 20%;
+            right: 15%;
+        }
+
+        .d3 {
+            bottom: 15%;
+            left: 20%;
+        }
+
+        .d4 {
+            bottom: 12%;
+            right: 20%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="decor d1">✨</div>
+    <div class="decor d2"></div>
+    <div class="decor d3">🍓</div>
+    <div class="decor d4">✨</div>
+
+    <div class="game">
+
+        <h1>KILL THE MOCHI!!! 🍡</h1>
+
+        <p class="subtitle">
+            press me (+++volume)
+        </p>
+
+        <div class="counter">
+            Squishes: <span id="score">0</span>
+            <br>
+            High Score: <span id="highScore">0</span>
+        </div>
+
+        <div class="mochi-area">
+
+            <div class="mochi" id="mochi">
+
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+
+                <div class="blush left"></div>
+                <div class="blush right"></div>
+
+                <div class="mouth"></div>
+
+            </div>
+
+        </div>
+
+        <div class="message" id="message">
+            Click the mochi 🍡
+        </div>
+
+        <button onclick="resetGame()">
+            Reset squishes
+        </button>
+
+    </div>
+
+
+    <script>
+
+        const mochi = document.getElementById("mochi");
+        const scoreText = document.getElementById("score");
+        const highScoreText = document.getElementById("highScore");
+        const message = document.getElementById("message");
+
+        let score = 0;
+
+        let highScore = Number(localStorage.getItem("mochiHighScore")) || 0;
+
+        highScoreText.textContent = highScore;
+
+        const messages = [
+            "hehehehehehe",
+            "udah udah",
+            "peyott",
+            "pencet lgi oi",
+            "bruh im dead",
+            "WASTED",
+            "STOPPPPP",
+            "emuah",
+            "UDAHLAH WOI!"
+        ];
+
+        mochi.addEventListener("click", function (event) {
+            playSquishSound();
+
+            score++;
+
+            scoreText.textContent = score;
+
+            if (score > highScore) {
+                highScore = score;
+                highScoreText.textContent = highScore;
+
+                localStorage.setItem("mochiHighScore", highScore);
+
+                message.textContent = "NEW HIGH SCORE!!! 🍡";
+            }
+
+            // squish animation
+            mochi.classList.remove("squish");
+
+            // force animation to restart
+            void mochi.offsetWidth;
+
+            mochi.classList.add("squish");
+
+            setTimeout(() => {
+                mochi.classList.remove("squish");
+            }, 180);
+
+            // random message
+            const randomMessage =
+                messages[Math.floor(Math.random() * messages.length)];
+
+            message.textContent = randomMessage;
+
+            // sparkle
+            createSparkle(event.clientX, event.clientY);
+
+        });
+
+        function playSquishSound() {
+            const audio = new (window.AudioContext || window.webkitAudioContext)();
+
+            const oscillator = audio.createOscillator();
+            const gain = audio.createGain();
+
+            oscillator.type = "sine";
+
+            oscillator.frequency.setValueAtTime(300, audio.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(
+                100,
+                audio.currentTime + 0.15
+            );
+
+            gain.gain.setValueAtTime(0.25, audio.currentTime);
+            gain.gain.exponentialRampToValueAtTime(
+                0.01,
+                audio.currentTime + 0.15
+            );
+
+            oscillator.connect(gain);
+            gain.connect(audio.destination);
+
+            oscillator.start();
+            oscillator.stop(audio.currentTime + 0.15);
+        }
+
+
+
+        function createSparkle(x, y) {
+
+            const sparkle = document.createElement("div");
+
+            sparkle.className = "sparkle";
+            sparkle.textContent = "✨";
+
+            sparkle.style.left = x + "px";
+            sparkle.style.top = y + "px";
+
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 700);
+        }
+
+
+        function resetGame() {
+
+            score = 0;
+
+            scoreText.textContent = score;
+
+            message.textContent = "Click the mochi 🍡";
+        }
+
+    </script>
+
+</body>
+
+</html>
