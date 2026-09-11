@@ -59,93 +59,36 @@
         }
 
         .mochi {
-            width: 200px;
-            height: 145px;
-            background: #e9c47c;
-            border-radius: 45% 45% 42% 42%;
-            position: relative;
+            width: 230px;
+            height: 230px;
             cursor: pointer;
-
-            box-shadow:
-                inset 0 -12px 0 rgba(180, 90, 120, 0.12),
-                0 15px 30px rgba(180, 100, 130, 0.18);
-
-            transition:
-                transform 0.12s ease,
-                width 0.12s ease,
-                height 0.12s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .mochi:hover {
+        .mochi img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.12s ease;
+        }
+
+        .mochi:hover img {
             transform: scale(1.04);
         }
 
         /* squished state */
-        .mochi.squish {
-            transform: scale(1.35, 0.55);
-            width: 210px;
-            height: 150px;
+        .mochi.squish img {
+            transform: scale(1.1, 0.85);
         }
 
-        .mochi:active {
-            transform: scale(1.3, 0.5);
+        .mochi:active img {
+            transform: scale(1.1, 0.85);
         }
 
         /* face */
 
-        .eye {
-            width: 14px;
-            height: 18px;
-            background: #563743;
-            border-radius: 50%;
-            position: absolute;
-            top: 53px;
-        }
-
-        .eye.left {
-            left: 62px;
-        }
-
-        .eye.right {
-            right: 62px;
-        }
-
-        .mouth {
-            width: 36px;
-            height: 24px;
-            background: #563743;
-            border-radius: 0 0 50% 50%;
-            position: absolute;
-            top: 70px;
-            left: 79px;
-            transition: all 0.12s ease;
-        }
-
-        .mochi.squish .mouth {
-            width: 48px;
-            height: 35px;
-            top: 65px;
-            left: 73px;
-            border-radius: 50%;
-        }
-
-        .blush {
-            width: 25px;
-            height: 12px;
-            background: #ed8eaa;
-            border-radius: 50%;
-            position: absolute;
-            top: 76px;
-            opacity: 0.65;
-        }
-
-        .blush.left {
-            left: 30px;
-        }
-
-        .blush.right {
-            right: 30px;
-        }
 
         /* little sparkle */
 
@@ -245,15 +188,7 @@
         <div class="mochi-area">
 
             <div class="mochi" id="mochi">
-
-                <div class="eye left"></div>
-                <div class="eye right"></div>
-
-                <div class="blush left"></div>
-                <div class="blush right"></div>
-
-                <div class="mouth"></div>
-
+                <img id="mochiImage" src="ayod1.png" alt="Mochi">
             </div>
 
         </div>
